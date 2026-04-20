@@ -1,41 +1,25 @@
 package com.example.staggeredview
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.staggeredview.R
 
-// Extends the Adapter class to RecyclerView.Adapter
-// and implement the unimplemented methods
 class Adapter(
-    var context: Context?,
-    var images: ArrayList<*>
+    private val images: List<Int>
 ) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
+    inner class ViewHolder(val imageView: ImageView) : RecyclerView.ViewHolder(imageView)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // Inflating the Layout(Instantiates list_item.xml layout file into View object)
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        // Passing view to ViewHolder
-        return ViewHolder(view)
+        val imageView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.list_item, parent, false) as ImageView
+        return ViewHolder(imageView)
     }
 
-    // Binding data to the into specified position
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // TypeCast Object to int type
-        val res = images[position] as Int
-        holder.images.setImageResource(res)
+        holder.imageView.setImageResource(images[position])
     }
 
-    override fun getItemCount(): Int {
-        // Returns number of items currently available in Adapter
-        return images.size
-    }
-
-    // Initializing the Views
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var images: ImageView = view.findViewById(R.id.imageView)
-    }
+    override fun getItemCount(): Int = images.size
 }
